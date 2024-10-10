@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import UsernameList from './usernamesList';
-import UserDetails from './userDetails';
+import { pageFactoryInitializer } from './pageFactoryInitializer';
 
 // Define the type for the pages
 type Page = 'list' | 'details';
@@ -18,18 +17,9 @@ const condRenderHome = () => {
     setPage('list');
   };
 
-  const renderPage = (): JSX.Element => {
-    switch (page) {
-      case 'list':
-        return <UsernameList onUserClick={handleUserClick} />;
-      case 'details':
-        return <UserDetails username={selectedUser} onBack={handleBackToList} />;
-      default:
-        return <UsernameList onUserClick={handleUserClick} />;
-    }
-  };
+  const currentPage = pageFactoryInitializer(page, handleUserClick, selectedUser, handleBackToList);
 
-  return <div>{renderPage()}</div>;
+  return <div>{currentPage.render()}</div>;
 };
 
 export default condRenderHome;

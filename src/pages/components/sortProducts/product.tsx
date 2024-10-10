@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Product, StrategPickerProps } from '../../../types/product';
 import { initialProducts } from './data';
-
+import { strategies } from './sort';
 
 const StrategyPicker = ({ sortStrategy, handleSortStrategyChange }: StrategPickerProps) => {
     return (
@@ -18,19 +18,7 @@ const StrategyPicker = ({ sortStrategy, handleSortStrategyChange }: StrategPicke
 
 const SortedProductList = ({ products, sortStrategy }: { products: Product[], sortStrategy: string }) => {
     // Sorting logic using if-else statements
-    const getSortedProducts = (): Product[] => {
-        if (sortStrategy === 'price') {
-        return [...products].sort((a, b) => a.price - b.price);
-        } else if (sortStrategy === 'rating') {
-        return [...products].sort((a, b) => b.rating - a.rating);
-        } else if (sortStrategy === 'name') {
-        return [...products].sort((a, b) => a.name.localeCompare(b.name));
-        } else {
-        return products; // Default case
-        }
-    };
-
-    const sortedProducts = getSortedProducts();
+    const sortedProducts = strategies[sortStrategy](products);
 
     return (
         <ul>
